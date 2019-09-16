@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PostMessage Tester</title>
+    <link href='//fonts.googleapis.com/css?family=PT+Sans+Caption:400,500' rel='stylesheet' type='text/css' />
+    <style>
+    .cf:before,
+    .cf:after {
+        content: " "; /* 1 */
+        display: table; /* 2 */
+    }
+
+    .cf:after {
+        clear: both;
+    }
+
+    /**
+     * For IE 6/7 only
+     * Include this rule to trigger hasLayout and contain floats.
+     */
+    .cf {
+        *zoom: 1;
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        font-family: PT Sans Caption, Arial, sans-serif;
+    }
+
+    .wrap {
+        padding: 20px;
+    }
+
+    .left {
+        float: left;
+        width: 50%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding-right:20px;
+    }
+
+    .right {
+        float: right;
+        width: 50%;
+    }
+
+    strong {
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .txt {
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        padding: 5px;
+        font-size: 14px;
+        font-family: PT Sans Caption, Arial, sans-serif;
+        border: 1px solid #aaa;
+    }
+
+    .panel {
+        display: none;
+        background: #eee;
+        border: 1px solid #aaa;
+        padding: 20px;
+    }
+
+    .panel.active {
+        display: block;
+    }
+
+    .tabs {
+        margin: 0;
+        padding: 0;
+        border-left: 1px solid #aaa;
+    }
+
+    .tabs li {
+        float: left;
+        list-style: none;
+    }
+
+    .tabs .active a {
+        background: #fff;
+        color: #333;
+    }
+
+    .tabs li a {
+        display: block;
+        padding: 5px 10px;
+        color: #999;
+        font-weight: bold;
+        text-decoration: none;
+        border: 1px solid #aaa;
+        border-left: none;
+        border-bottom: none;
+        background: #eee;
+    }
+
+    pre {
+        white-space: pre-wrap;       /* CSS 3 */
+        white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        display: block;
+        padding: 20px;
+        background: #fff;
+        border: 1px solid #aaa;
+        overflow: scroll;
+        min-height: 500px;
+        max-height: 500px;
+    }
+
+    #frame {
+        background: #fff;
+        border: 1px solid #aaa;
+    }
+    .error {
+        display: none;
+        padding: 20px;
+        border: 1px solid #daa;
+        background: #fcc;
+        margin-bottom: 20px;
+    }
+
+.btn {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 14px;
+  background: #3498db;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+
+h1 {
+    //margin: 1em 0 0.5em 0;
+    font-weight: 100;
+    font-family: 'Titillium Web', sans-serif;
+    position: relative;
+    font-size: 26px;
+    line-height: 60px;
+    padding: 15px 15px 15px 15%;
+    color: #355681;
+    box-shadow:
+        inset 0 0 0 1px rgba(53,86,129, 0.4),
+        inset 0 0 5px rgba(53,86,129, 0.5),
+        inset -285px 0 35px white;
+    border-radius: 0 10px 0 10px;
+    background: #fff url(logo.png) no-repeat center left;
+}
+
+h2 {
+    margin: 1em 0 0.5em 0;
+    font-weight: normal;
+    position: relative;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+    font-size: 28px;
+    line-height: 40px;
+    background: #355681;
+    background: rgba(53,86,129, 0.8);
+    border: 1px solid #fff;
+    padding: 5px 15px;
+    color: white;
+    border-radius: 0 10px 0 10px;
+    box-shadow: inset 0 0 5px rgba(53,86,129, 0.5);
+    font-family: 'Muli', sans-serif;
+}
+
+h3 {
+    margin: 1em 0 0.5em 0;
+    font-weight: 600;
+    font-family: 'Titillium Web', sans-serif;
+    position: relative;
+
+    font-size: 14px;
+    line-height: 40px;
+    color: #355681;
+
+    border-bottom: 1px solid rgba(53,86,129, 0.3);
+}
+
+h4 {
+    /*margin: 1em 0 0.5em 0; */
+    font-weight: 600;
+    font-family: 'Titillium Web', sans-serif;
+    position: relative;
+    font-size: 18px;
+    line-height: 20px;
+    color: #788699;
+    font-family: 'Muli', sans-serif;
+}
+
+        @media only screen and (max-width: 1024px) {
+html .left {
+display: block;
+float: none;
+padding-right: 0;
+width: 100%;
+}
+html .left input[type=text],
+html .left textarea {
+width: 100%;
+box-sizing: border-box;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+}
+html .right {
+display: block;
+float: none;
+padding-left: 0;
+width: 100%;
+}
+}
+
+</style>
+</head>
+<body>
+    <H1 align="right">postMessage Fuzzer</H1>
+    <div class="error">Uh oh! Your browser does not support the following required technologies: <span class="fails"></span></div>
+    <div class="cf wrap">
+        <div class="left">
+            <form action="" id="load">
+                <strong>URL:</strong>
+                <input type="text" name="" size="50" id="url" class="txt"><br><br>
+
+                <input type="button" value="Load in iFrame" id="btn-iframe">
+                <input type="button" value="Load in Popup" id="btn-popup">
+            </form>
+
+            <br><br>
+
+            <form action="" id="attack">
+                <strong>Message:</strong>
+                <textarea id="message" cols="50" rows="10" class="txt"></textarea><br><br>
+
+                <input type="button" value="Fire as String" id="btn-string">
+                <input type="button" value="Fire as JSON" id="btn-json">
+                <input type="button" value="Perform Simple Fuzz" id="btn-simple-fuzz">
+            </form>
+
+            <br>
+            <!--
+            <pre>
+Example:
+load http://poc.sec-1.com/postmessage/test.html
+
+Send either:
+echo:&lt;some message&gt;
+will send the same message back to the parent window
+
+alert:&lt;some message&gt;
+will alert the message
+            </pre>
+-->
+        </div>
+
+        <div class="right">
+            <ul class="tabs cf">
+                <li class="tab"><a href="#iframe">iFrame</a></li>
+                <li class="tab active"><a href="#fuzzer_info">Fuzzer Log</a></li>
+                <li class="tab"><a href="#inbound">Inbound</a></li>
+                <li class="tab"><a href="#payload">PoC Code</a></li>
+            </ul>
+            <div class="panels">
+                <div class="panel" id="iframe"><div><iframe src="about:blank" frameborder="0" id="frame" width="100%" height="600"></iframe></div></div>
+
+                <div class="panel active" id="fuzzer_info">
+                    <pre id="fuzzer_log"></pre>
+                </div>
+
+                <div class="panel" id="inbound">
+                    <pre id="in"></pre>
+                </div>
+                <div class="panel" id="payload">
+                    <pre id="poc">&lt;html&gt;
+&lt;body&gt;
+<span class="writable-html"></span>
+&lt;/body&gt;
+&lt;script&gt;
+<div class="writable-js"></div>
+<div class="writable-js-2"></div>
+&lt;/script&gt;
+&lt;/html&gt;</pre>
+                    <strong>As data URI:</strong>
+                    <pre id="data-url"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="fuzzer.js"></script>
+    <script>
+
+   var msg_type;
+   var fuzz_count = 0;
+
+   function html_encode(rawStr){
+            try{
+                var encodedStr = rawStr.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+                    return '&#'+i.charCodeAt(0)+';';
+                    });
+                return encodedStr;
+            }catch(e){
+                return rawStr;
+            }
+
+    }
+
+    function getURLPar(name, search) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(search)||[,""])[1].replace(/\+/g, '%20'))||null;
+    }
+
+    function onpage_load(){
+
+        target = getURLPar("target",window.location.hash);
+        msg = getURLPar("msg",window.location.hash);
+        msg_type = getURLPar("type",window.location.hash);
+
+        if(target){
+            t = document.getElementById("url");
+
+            //t.value = target
+            t.value = decodeURIComponent(atob(target));
+
+        }
+
+        if(msg){
+            m = document.getElementById("message");
+            m.value = decodeURIComponent(window.atob(msg));
+        }
+
+
+    }
+    window.onerror = function(e) {
+        alert(e);
+    }
+
+    window.onmessage = function(e){
+        $('#in').text($('#in').text() + JSON.stringify(e.data) + "\n--------------------------------\n");
+    };
+
+    jQuery(function($){
+        var tests = {
+            'PostMessage': function() {return 'postMessage' in $('#frame').get(0).contentWindow},
+            'JSON': function() {return 'JSON' in window}
+        };
+
+        fails = [];
+        for(var i in tests) {
+            if(!tests[i]()) {
+                fails.push(i);
+            }
+        };
+
+        if(fails.length) {
+            $('.fails').text(fails.implode(', '));
+            $('.error').show();
+        }
+
+        $('form').submit(function(e) { e.preventDefault(); });
+        $('#btn-iframe').click(function(e){
+            e.preventDefault();
+
+            var frame = $('#frame');
+            var url = $('#url').val();
+
+            frame.attr('src', url);
+            window.poc = frame.get(0).contentWindow;
+            $('.writable-html').text('<iframe src="' + url + '" id="frame"></iframe>');
+            $('.writable-js').text("var frame = document.getElementById('frame');\nwindow.poc = frame.contentWindow;\nframe.onload = function() {");
+            $('.writable-js-2').text('};');
+            $('#data-url').text('data:text/html;base64,' + window.btoa($('#poc').text()));
+        });
+
+        $('#btn-popup').click(function(e){
+            e.preventDefault();
+
+            $('#frame').attr('src', 'data:text/html,<html><body><strong>Inactive:</strong> exploit is using popup</body></html>');
+            var url = $('#url').val();
+            var popup = window.open(url);
+            window.poc = popup;
+            $('.writable-html').text('<input type="button" value="Open Popup" id="btn" />\n<input type="button" value="Fire Exploit" id="fire" />');
+            $('.writable-js').text("document.getElementById('btn').onclick = function(e) {\nwindow.poc = window.open('" + url + "');\n};\ndocument.getElementById('fire').onclick = function(e) {");
+            $('.writable-js-2').text('};');
+        });
+
+        $('#btn-string').click(function(e){
+            e.preventDefault();
+            var message = $('#message');
+            window.poc.postMessage(message.val(), '*');
+
+            var payload = "\nwindow.poc.postMessage('" + message.val().replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/</g, "<' + '") + "', '*');";
+            $('.writable-js').text($('.writable-js').text() + payload);
+            $('#data-url').text('data:text/html;base64,' + window.btoa($('#poc').text()));
+        });
+
+         $('#btn-json').click(function(e){
+            e.preventDefault();
+            var message = $('#message');
+            window.poc.postMessage(JSON.parse(message.val()), '*');
+
+            var payload = "\nwindow.poc.postMessage(" + message.val() + ", '*');";
+            $('.writable-js').text($('.writable-js').text() + payload);
+            $('#data-url').text('data:text/html;base64,' + window.btoa($('#poc').text()));
+        });
+
+
+
+        function log_fuzz(data){
+
+            // Convert to string
+            try{
+                data = JSON.stringify(data);
+            }catch(e){}
+
+            document.getElementById("fuzzer_log").innerHTML += html_encode(data) + "\n"
+        }
+
+
+        function fuzz_msgs(list,delay){
+            //console.warn(list.length);
+            var message_to_fuzz = list.pop();
+            log_fuzz("--------------------------------");
+            log_fuzz(message_to_fuzz);
+            window.poc.postMessage(message_to_fuzz, '*');
+            if(list.length > 0) {
+                setTimeout(function(){
+                    fuzz_msgs(list,delay);
+                }, delay);
+            }else{
+                log_fuzz("Done")
+            }
+        }
+
+
+        $('#btn-simple-fuzz').click(function(e){
+            e.preventDefault();
+
+            var target_msg;
+            if(msg_type && msg_type=="object"){
+                target_msg = JSON.parse($('#message').val())
+            }else{
+                target_msg = $('#message').val();
+            }
+
+
+            var fuzzed_messages = simple_fuzz(target_msg, default_fuzz_callback);
+            fuzz_msgs(fuzzed_messages, 1);
+            /*
+            for(var i=0;i < fuzzed_messages.length; i++){
+                log_fuzz(fuzzed_messages[i]);
+                window.poc.postMessage(fuzzed_messages[i], '*');
+
+            }*/
+
+        });
+
+
+        $('.tabs .tab').click(function(e){
+            e.preventDefault();
+            $('.tab.active').removeClass('active');
+            $(this).addClass('active');
+            $('.panel.active').removeClass('active');
+            var select = $(this).find('a').attr('href');
+            $(select).addClass('active');
+        });
+    });
+
+    onpage_load()
+    </script>
+</body>
+</html>

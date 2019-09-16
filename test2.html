@@ -1,0 +1,41 @@
+<html>
+        <body>
+        <div id ='messageout'/>
+        <script>
+        "use strict";
+        function process_message_event(event){
+            console.log("message received")
+            console.log(event.data);
+            if(typeof event.data == "string"){
+                data = JSON.parse(event.data);
+            }else{
+                data = event.data
+            }
+            if(event.origin.indexOf(window.location.hostname) == -1){
+                console.log("failed origin check");
+                return
+            }
+
+      
+            if(data.hasOwnProperty("url")){
+                redirectTo(data.url);
+            }else{
+                console.log("No url supplied");
+            }
+
+        }
+
+        function redirectTo(url){
+            window.open(url);    
+        }
+        //window.addEventListener("message", process_message_event);
+        setTimeout(function(){
+            window.addEventListener("message", process_message_event);
+            
+            
+        }, 10);
+        
+        </script>
+
+        </body>
+        </html>

@@ -1,0 +1,617 @@
+<html>
+<head></head>
+<style type="text/css">
+body {
+            width:95%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 5px;
+            padding: 16px;
+            font-family: helvetica,arial,verdana;
+            text-align: left;
+            clear: both;
+            word-wrap: break-word;
+
+          }
+
+    pre{
+        background-color: #EBECE4;
+    }
+
+
+          /* roScripts
+
+          ----------------------------------------------- */
+
+          table {
+          		border-collapse:collapse;
+          		background:#EFF4FC repeat-x;
+                table-layout: fixed;
+                width: 100%;
+          		border-left:1px solid #686868;
+          		border-right:1px solid #686868;
+          		font:0.8em/145% 'Trebuchet MS',helvetica,arial,verdana;
+          		color: #333;
+          }
+
+          td, th {
+          		padding:5px;
+          }
+
+          caption {
+          		padding: 0 0 .5em 0;
+          		text-align: left;
+          		font-size: 1.4em;
+          		font-weight: bold;
+          		text-transform: uppercase;
+          		color: #333;
+          		background: transparent;
+          }
+
+          /* =links
+          ----------------------------------------------- */
+
+          table a {
+          		color:#950000;
+          		text-decoration:none;
+          }
+
+          table a:link {}
+
+          table a:visited {
+          		font-weight:normal;
+          		color:#666;
+          		text-decoration: line-through;
+          }
+
+          table a:hover {
+          		border-bottom: 1px dashed #bbb;
+          }
+
+          /* =head =foot
+          ----------------------------------------------- */
+
+          thead th, tfoot th, tfoot td {
+          		background:#333 url(llsh.gif) repeat-x;
+          		color:#fff
+          }
+
+          tfoot td {
+          		text-align:right
+          }
+
+          /* =body
+          ----------------------------------------------- */
+
+          tbody th, tbody td {
+          		border-bottom: dotted 1px #333;
+          }
+
+          tbody th {
+          		white-space: nowrap;
+          }
+
+          tbody th a {
+          		color:#333;
+          }
+
+          .odd {}
+
+          tbody tr:hover {
+          		background:#fafafa
+          }
+.btn {
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 28px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 14px;
+  background: #3498db;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+
+h1 {
+    margin: 1em 0 0.5em 0;
+    font-weight: 600;
+    font-family: 'Titillium Web', sans-serif;
+    position: relative;
+    font-size: 36px;
+    line-height: 75px;
+    padding: 15px 15px 15px 15%;
+    color: #355681;
+    box-shadow:
+        inset 0 0 0 1px rgba(53,86,129, 0.4),
+        inset 0 0 5px rgba(53,86,129, 0.5),
+        inset -285px 0 35px white;
+    border-radius: 0 10px 0 10px;
+    background: #fff url(logo.png) no-repeat center left;
+}
+
+h2 {
+    margin: 1em 0 0.5em 0;
+    font-weight: normal;
+    position: relative;
+    text-shadow: 0 -1px rgba(0,0,0,0.6);
+    font-size: 28px;
+    line-height: 40px;
+    background: #355681;
+    background: rgba(53,86,129, 0.8);
+    border: 1px solid #fff;
+    padding: 5px 15px;
+    color: white;
+    border-radius: 0 10px 0 10px;
+    box-shadow: inset 0 0 5px rgba(53,86,129, 0.5);
+    font-family: 'Muli', sans-serif;
+}
+
+h3 {
+    margin: 1em 0 0.5em 0;
+    font-weight: 600;
+    font-family: 'Titillium Web', sans-serif;
+    position: relative;
+
+    font-size: 14px;
+    line-height: 40px;
+    color: #355681;
+
+    border-bottom: 1px solid rgba(53,86,129, 0.3);
+}
+
+h4 {
+    /*margin: 1em 0 0.5em 0; */
+    font-weight: 600;
+    font-family: 'Titillium Web', sans-serif;
+    position: relative;
+    font-size: 18px;
+    line-height: 20px;
+    color: #788699;
+    font-family: 'Muli', sans-serif;
+}
+</style>
+<script>
+
+    // ensure we are on https
+    if (window.location.protocol != "https:"){
+        window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+    }
+
+   function html_encode(rawStr){
+            try{
+                var encodedStr = rawStr.replace(/[\u00A0-\u9999<>\&]/gim, function(i) {
+                    return '&#'+i.charCodeAt(0)+';';
+                    });
+                return encodedStr;
+            }catch(e){
+                return rawStr;
+            }
+
+    }
+    function toggleMe(a){
+        var e=document.getElementById(a);
+        if(!e)return true;
+        if(e.style.display=="none"){
+        e.style.display="block"
+        }
+        else{
+        e.style.display="none"
+        }
+        return true;
+    }
+
+    function clear_output(){
+        document.getElementById("output").innerHTML = ""
+
+    }
+
+    function cleardb(){
+        localStorage.clear()
+    }
+
+
+    function is_in_array(item, src_array){
+        //console.warn(src_array)
+        //return false
+        for (i = 0; i < src_array.length; i++) {
+			array_item = src_array[i];
+			if (item == array_item){
+			    return true
+			}
+        }
+
+        return false
+    }
+
+
+    function we_have_the_handler(handler, handler_array){
+        //console.warn(src_array)
+        //return false
+        for (i = 0; i < handler_array.length; i++) {
+			array_item = handler_array[i].handler;
+			if (handler == array_item){
+			    return true
+			}
+        }
+
+        return false
+    }
+
+
+
+    function we_have_the_message(message, message_array){
+        //console.warn(src_array)
+        //return false
+        message = message.data
+        for (i = 0; i < message_array.length; i++) {
+			array_item = message_array[i].data;
+			//console.log("comparing");
+			//console.log(message);
+			//console.log(array_item);
+
+
+            // Bug, if we have an undefined value in message then JSON.stringify strips it. Therefore
+            // When the message is stored in the DB we lose some properties.
+            // Trying this as a workaround.
+
+            if (typeof(message) == "object"){
+                message = JSON.stringify(message, function(k, v) { if (v === undefined) { return null; } return v; })
+                array_item = JSON.stringify(array_item, function(k, v) { if (v === undefined) { return null; } return v; })
+            }
+
+			if (message== array_item){
+			    //console.warn("same");
+			    //console.log(message);
+			    //console.log(array_item);
+			    return true
+			    console.log("same");
+			}
+        }
+
+        return false
+    }
+
+
+    function store_item(item){
+        console.log("Storing handler in DB")
+        console.warn(item);
+        var targetpage;
+        if (item.to){
+            targetpage = item.to
+        } else{
+            targetpage = item.href
+        }
+
+        if(localStorage[targetpage]){
+            per_page_log = JSON.parse(localStorage[targetpage])
+        }else{
+            per_page_log = {"handlers":[],"messages":[]}
+        }
+
+        // item is a message log if it has these properties
+        if(item.from && item.to){
+            if(!we_have_the_message(item, per_page_log.messages)){
+                per_page_log.messages.push(item);
+            }
+        }
+
+        if(item.handler){
+            if(!we_have_the_handler(item.handler, per_page_log.handlers)){
+                //console.warn("adding");
+                //console.warn(item);
+                //console.warn(per_page_log.handlers);
+                per_page_log.handlers.push(item);
+            }
+        }
+
+        localStorage[targetpage] = JSON.stringify(per_page_log, function(k, v) { if (v === undefined) { return null; } return v; });
+
+     }
+
+
+    function create_header(header_type, header_text){
+
+            var header = document.createElement(header_type)
+
+            // limit length
+            var header_len_limit = 100
+            if (header_text.length > header_len_limit){
+                //header.alt = header_text;
+                header_text = header_text.slice(0,header_len_limit) + " ....";
+            }
+
+            var header_text = document.createTextNode(header_text);
+
+
+
+            header.appendChild(header_text);
+            return header
+    }
+
+    function get_host_for_url(url){
+        a = document.createElement("A");
+        a.href = url;
+        return a.host;
+    }
+
+    function get_scheme_for_url(url){
+        a = document.createElement("A");
+        a.href = url;
+        return a.protocol;
+    }
+
+
+    function dump_events(){
+        clear_output()
+        var outputDiv = document.getElementById("output");
+        var url_filter = document.getElementById("url_filter").value;
+
+
+        for (var i = 0; i < localStorage.length; i++){
+           item = localStorage.getItem( localStorage.key(i) );
+
+           //if we have a url filter apply it here
+           if(url_filter){
+                try{
+
+                    var pattern = RegExp(url_filter);
+                    if(!pattern.exec(localStorage.key(i))){ continue;}
+
+                }catch(e){
+                    console.log(e);
+                }
+           }
+
+           item = JSON.parse(item)
+
+            // Add header containing url
+            var h = create_header("H2",localStorage.key(i))
+
+            h.onclick = (function(){
+                             var x=i; return function(){
+                             return toggleMe("results_div" + x.toString())
+                            }
+                         })()
+
+            outputDiv.appendChild(h)
+
+            // insert link to open replay tool with just the target URL.
+
+            var open_replay_tool = document.createElement("A")
+
+            // target host
+            var target_host = get_host_for_url(localStorage.key(i));
+
+            //target scheme
+            var target_scheme = get_scheme_for_url(localStorage.key(i));
+
+            //open_replay_tool.href = target_scheme + "//" + target_host + "." + window.location.host + "/replay.html#?target=" + btoa(encodeURIComponent(localStorage.key(i))).replace("+","%2b");
+            open_replay_tool.href = target_scheme + "//" + target_host + "." + window.location.href.substring(window.location.protocol.length + 2,window.location.href.lastIndexOf("/")) + "/" + "replay.html#?target=" + btoa(encodeURIComponent(localStorage.key(i))).replace("+","%2b");
+
+            var rpl_link_text = document.createTextNode("Open Replay Tool");
+            open_replay_tool.appendChild(rpl_link_text);
+            open_replay_tool.target = "_blank";
+            //outputDiv.appendChild(open_replay_tool);
+
+
+            results_div = document.createElement("DIV")
+            results_div.id = "results_div" + i.toString();
+            results_div.style.display="none"
+            results_div.appendChild(open_replay_tool);
+
+
+            // Add handlers
+
+            var h3 = create_header("H3","Handlers")
+            results_div.appendChild(h3)
+
+            for(ct=0;ct < item.handlers.length;ct++){
+                var h = create_header("H4","Handler: " + ct.toString())
+                results_div.appendChild(h);
+                var c = document.createElement("textarea")
+                c.cols = "100"
+                c.rows = 10;
+                c.value = item.handlers[ct].handler
+
+
+                results_div.appendChild(c)
+
+                // insert find handler
+                var a = document.createElement("a");
+                var img = document.createElement("img");
+                img.src ="/static/images/search.png"
+                img.style.width= '50px';
+                img.style.height= '50px';
+                //var linkText = document.createTextNode("Attempt to find Handler");
+                //a.appendChild(linkText)
+                a.appendChild(img)
+
+                //
+                //var qs = btoa(localStorage.key(i)) + "&search_for=" + btoa(item.handlers[ct].handler)
+                var qs = btoa(localStorage.key(i)) + "&search_for=" + btoa(unescape(encodeURIComponent(item.handlers[ct].handler)))
+                a.href= "http://" + window.location.host + ":5000/search_for?url=" + qs.replace("+","%2b")
+                a.target ="_blank";
+                results_div.appendChild(a);
+            }
+
+
+            // Add messages
+
+            var h3 = create_header("H3","Messages");
+            results_div.appendChild(h3);
+
+            tbl  = document.createElement('table');
+
+            var header = tbl.createTHead();
+
+
+            header1 = document.createElement('th');
+            header1.width="45%";
+            header1.innerHTML ="<b>Data</b>";
+
+            header2 = document.createElement('th');
+            header2.width="45%";
+            header2.innerHTML = "<b>Message From</b>";
+
+            header3 = document.createElement('th');
+            header3.innerHTML ="<b>Replay</b>";
+            header3.width="10%";
+
+
+            header.appendChild(header1)
+            header.appendChild(header2)
+            header.appendChild(header3)
+
+            for(ct=0;ct < item.messages.length;ct++){
+                row = tbl.insertRow(ct);
+
+                from = item.messages[ct].from
+                //to = item.messages[ct].to
+                data = item.messages[ct].data
+
+                var cell1 = row.insertCell(0)
+                cell1.width = "45%"
+                cell1.style.verticalAlign = "top";
+                var cell2 = row.insertCell(1)
+                cell2.width = "45%"
+
+                cell2.style.verticalAlign = "top";
+
+                var cell3 = row.insertCell(2)
+                cell3.width = "10%"
+
+                if (typeof(data) == "object") {
+                    msg_body =JSON.stringify(data, function(k, v) { if (v === undefined) { return null; } return v; });
+                    cell1.innerHTML = html_encode(msg_body);
+                }else{
+                    msg_body = data
+                    cell1.innerHTML =  html_encode(msg_body);
+                }
+                cell2.innerHTML = html_encode(from);
+
+                replay  = (
+                function(){
+                            var type = typeof data;
+                            var x = msg_body
+                            var target = localStorage.key(i)
+                            var target_url = btoa(encodeURIComponent(localStorage.key(i)))
+                            var target_host = get_host_for_url(localStorage.key(i));
+                            var msg_src_host = get_host_for_url(from);
+                            var target_scheme = get_scheme_for_url(localStorage.key(i));
+
+                            return function(){
+
+                                var qs = target_url + "&msg=" + btoa(encodeURIComponent(x))
+
+
+                                // switch to http since we may want to embed iframes from http which cannot be done from https
+
+                                // where to start our substring so we capture the path, acounting for the //
+                                var adjust_len = window.location.protocol.length + 2;
+
+                                //var replay_url  = target_scheme +  "//" + target_host  + "." + window.location.href.substring(adjust_len,window.location.href.lastIndexOf("/")) + "/replay.html";
+                                var replay_url  = target_scheme +  "//" + msg_src_host + "." + window.location.href.substring(adjust_len,window.location.href.lastIndexOf("/")) + "/replay.html";
+                                var url = replay_url + "#?target=" + qs.replace("+","%2b");
+
+
+                                if (type == "object") {
+                                    var url = url + "&type=object"
+
+                                }else{
+                                    var url = url + "&type=string"
+                                }
+                                window.open(url);
+                            }
+                           }
+                           )()
+
+                var a = document.createElement("a");
+                a.href= "#";
+                a.onclick = replay;
+                a.text = "Replay";
+                cell3.style.verticalAlign = "top";
+                cell3.appendChild(a);
+
+            }
+            //console.log(tbl)
+            results_div.appendChild(tbl)
+            outputDiv.appendChild(results_div);
+            }
+
+    }
+
+
+
+    function recv_message(event){
+        //console.log("Recieved Message");
+        //console.log(event);
+
+        //expects an object with event and handler props
+        //console.warn(event.data)
+        try{
+            if (event.data.hasOwnProperty("post_message_hook")){
+                store_item(event.data)
+            }
+
+        }catch(e){
+            console.error(e)
+        }
+
+        //Instruct the iframe to dump its handlers
+        try{
+            if (event.data === "dumpevents"){
+                //console.log("dumping events")
+                console.log(localStorage.eventdb)
+                //event.source.postMessage(localStorage.eventdb,"*")
+            }
+         }
+            catch(e){
+         console.error(e)
+         }
+
+
+    }
+    window.addEventListener("message",recv_message)
+    // Signal that we are ready
+    // console.warn("Signalling ready")
+    parent.postMessage("logger_iframe_ready","*")
+
+</script>
+<a href="PMHook.js">Download PMHook.js</a>&nbsp;&nbsp;<a href="replay.html">Open Replay Tool</a>
+<h1 align="right">Message Event Handler Log</h1>
+<button id="dumpevents" onclick="dump_events()">Dump Handlers</button>
+<button onclick="clear_output()">Clear Output</button>
+Filter URLs (regex): <input type="text" id="url_filter" size="50"/>
+<span style="float: right;"><button onclick="cleardb()">Clear DB</button></span>
+
+<script>
+        document.getElementById("url_filter")
+        .addEventListener("keyup", function(event) {
+            event.preventDefault();
+        if (event.keyCode == 13) {
+            document.getElementById("dumpevents").click();
+        }
+    });
+
+</script>
+
+<div id="output">
+
+
+</div>
+
+
+
+</body>
+</html>
